@@ -1,13 +1,17 @@
 pipeline {
-    agent any
+    agent { docker { image 'python:3.10.7-alpine' } }
+
+    environment {
+        DISABLE_AUTH = 'true'
+        DB_ENGINE    = 'sqlite'
+    }
+
     stages {
         stage('build') {
             steps {
-              sh 'echo "Hello World"'
-              sh '''
-                echo "Multiline shell steps works too"
-                ls -lah
-              '''
+              echo "Database engine is ${DB_ENGINE}"
+              echo ""DISABLE_AUTH is ${DISABLE_AUTH}""
+              sh 'printenv'
             }
         }
     }
